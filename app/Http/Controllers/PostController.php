@@ -16,9 +16,9 @@ class PostController extends Controller
         $this->validate($request, [
             'body' => 'required',
         ]);
-        // Post::create([
-        //     'user_id' => auth()->id,
-        //     'body' => $request->body
-        // ]);      
+     
+        $request->user()->posts()->create($request->only('body'));
+
+        return back();
     }
 }
