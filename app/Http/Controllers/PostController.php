@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $posts = Post::paginate(20);
@@ -25,6 +30,12 @@ class PostController extends Controller
             'body' => $request->body   
         ]);
 
+        return back();
+    }
+
+    public function destroy(Post $post, Request $request)
+    {
+        $request->user()->likes()->where('post_id', $post->id)->delete();
         return back();
     }
 }
